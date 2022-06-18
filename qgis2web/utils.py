@@ -179,13 +179,14 @@ def writeTmpLayer(layer, restrictToExtent, iface, extent):
         editorWidget = layer.editorWidgetSetup(fieldIndex).type()
         fieldType = layer.fields().field(field).type()
         fieldName = layer.fields().field(field).name()
+        fieldLength = layer.fields().field(field).length()        
         if (editorWidget == 'Hidden'):
             fieldName = "q2wHide_" + fieldName
         if fieldType == QVariant.Double or fieldType == QVariant.Int:
             fieldType = "double"
         else:
             fieldType = "string"
-        uri += '&field=' + fieldName + ":" + fieldType
+        uri += '&field=' + fieldName + ":" + fieldType + "(%d)" % fieldLength
     newlayer = QgsVectorLayer(uri, layer.name(), 'memory')
     writer = newlayer.dataProvider()
     outFeat = QgsFeature()
